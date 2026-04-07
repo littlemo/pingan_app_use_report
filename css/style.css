@@ -243,13 +243,36 @@ body {
 
 .issue-card .issue-steps {
   color: var(--text-dark);
-  line-height: 1.8;
+  line-height: 2;
   margin: 0;
-  padding-left: 1.5rem;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: step-counter;
 }
 
 .issue-card .issue-steps li {
-  margin-bottom: 0.5rem;
+  counter-increment: step-counter;
+  margin-bottom: 1rem;
+  padding-left: 2.5rem;
+  position: relative;
+}
+
+.issue-card .issue-steps li::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  background: linear-gradient(135deg, var(--brand-blue), var(--brand-blue-dark));
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
 }
 
 .issue-card .issue-steps li:last-child {

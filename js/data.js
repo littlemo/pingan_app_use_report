@@ -58,7 +58,7 @@ const reportData = {
       title: "点击引用来源文章导致APP闪退",
       description: "点击引用来源文章后APP发生闪退，严重影响使用体验。",
       time: "2026-04-06 23:18",
-      screenshots: ["imgs/IMG_8334.PNG", "imgs/IMG_8335.PNG", "imgs/IMG_8336.PNG"],
+      screenshots: [],
       videos: ["imgs/ScreenRecording_04-06-2026 23-35-59_1.MP4"],
       steps: [
         "提问：\"结合4月03号A股收盘数据和消息面、技术面、情绪面等关键信息，分析市场整体走势的核心驱动因素\"",
@@ -77,9 +77,13 @@ const reportData = {
       title: "来源引用标注错误",
       description: "「何帆教授\"九层股市利益金字塔\"理论」一段引用来源标注为\"④\"，但点击后看到④的内容与此无关，真正有关的是第九条引用来源。",
       time: "2026-04-06 23:18",
-      screenshots: [],
+      screenshots: ["imgs/IMG_8334.PNG", "imgs/IMG_8335.PNG", "imgs/IMG_8336.PNG"],
       videos: [],
-      steps: [],
+      steps: [
+        "提问：\"结合4月03号A股收盘数据和消息面、技术面、情绪面等关键信息，分析市场整体走势的核心驱动因素\"",
+        "查看财小安的回答，找到「何帆教授\"九层股市利益金字塔\"理论」段落",
+        "点击引用来源\"④\""
+      ],
       expectedResult: "引用编号与内容正确匹配，提高信息可信度",
       actualResult: ""
     },
