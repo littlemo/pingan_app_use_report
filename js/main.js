@@ -214,26 +214,58 @@ function initCharts() {
 function renderEvaluation() {
     const evaluationContent = document.getElementById('evaluationContent');
     evaluationContent.innerHTML = `
-        <h3>评分原因</h3>
-        <h4>加分项（4分基础）：</h4>
-        <ul>
-            <li>产品架构完整清晰，核心功能模块规划合理</li>
-            <li>AI Agent能力迭代明显，从纯对话向可执行操作转型</li>
-            <li>新增Skill功能支持下单等具体操作，实用性提升</li>
-            <li>用户体验基础扎实，界面设计友好统一</li>
-            <li>专业性方向明确，针对金融场景做了优化</li>
-        </ul>
-        <h4>扣分项（-1分）：</h4>
-        <ul>
-            <li><strong>稳定性问题（-0.5分）</strong>：存在点击引用来源导致APP闪退的严重问题</li>
-            <li><strong>功能完整性（-0.3分）</strong>：个人持仓信息未接入数据源</li>
-            <li><strong>数据准确性（-0.1分）</strong>：来源引用标注错误、历史消息跳转时间丢失</li>
-            <li><strong>专业性细节（-0.1分）</strong>：金融专业术语发音不严谨</li>
-        </ul>
-        <h4>改进路线图建议</h4>
-        <p><strong>第一阶段（紧急修复）</strong>：优先解决APP闪退问题，确保应用稳定性；修复来源引用标注错误，提高信息可信度</p>
-        <p><strong>第二阶段（功能完善）</strong>：接入个人持仓数据源，支持个人持仓查询；修复历史消息跳转时间丢失问题；修复涨跌分布等数据展示问题；修复财小安回答样式渲染问题</p>
-        <p><strong>第三阶段（体验优化）</strong>：语音播放增加句子高亮功能；支持从指定段落开始朗读；优化金融专业术语发音；增强五大选股功能头像辨识度</p>
+        <div class="evaluation-section">
+            <h3 class="evaluation-section-title">评分原因</h3>
+
+            <div class="evaluation-subsection">
+                <h4 class="evaluation-subtitle positive">加分项（4分基础）</h4>
+                <ul class="evaluation-list">
+                    <li>产品架构完整清晰，核心功能模块规划合理</li>
+                    <li>AI Agent能力迭代明显，从纯对话向可执行操作转型</li>
+                    <li>新增Skill功能支持下单等具体操作，实用性提升</li>
+                    <li>用户体验基础扎实，界面设计友好统一</li>
+                    <li>专业性方向明确，针对金融场景做了优化</li>
+                </ul>
+            </div>
+
+            <div class="evaluation-subsection">
+                <h4 class="evaluation-subtitle negative">扣分项（-1分）</h4>
+                <ul class="evaluation-list deduction-list">
+                    <li><span class="deduction-tag">稳定性问题（-0.5分）</span>存在点击引用来源导致APP闪退的严重问题</li>
+                    <li><span class="deduction-tag">功能完整性（-0.3分）</span>个人持仓信息未接入数据源</li>
+                    <li><span class="deduction-tag">数据准确性（-0.1分）</span>来源引用标注错误、历史消息跳转时间丢失</li>
+                    <li><span class="deduction-tag">专业性细节（-0.1分）</span>金融专业术语发音不严谨</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="evaluation-section">
+            <h3 class="evaluation-section-title">改进路线图建议</h3>
+
+            <div class="roadmap-phase phase-urgent">
+                <div class="phase-header">
+                    <span class="phase-badge urgent">第一阶段</span>
+                    <span class="phase-title">紧急修复</span>
+                </div>
+                <p class="phase-content">优先解决APP闪退问题，确保应用稳定性；修复来源引用标注错误，提高信息可信度</p>
+            </div>
+
+            <div class="roadmap-phase phase-improve">
+                <div class="phase-header">
+                    <span class="phase-badge improve">第二阶段</span>
+                    <span class="phase-title">功能完善</span>
+                </div>
+                <p class="phase-content">接入个人持仓数据源，支持个人持仓查询；修复历史消息跳转时间丢失问题；修复涨跌分布等数据展示问题；修复财小安回答样式渲染问题</p>
+            </div>
+
+            <div class="roadmap-phase phase-optimize">
+                <div class="phase-header">
+                    <span class="phase-badge optimize">第三阶段</span>
+                    <span class="phase-title">体验优化</span>
+                </div>
+                <p class="phase-content">语音播放增加句子高亮功能；支持从指定段落开始朗读；优化金融专业术语发音；增强五大选股功能头像辨识度</p>
+            </div>
+        </div>
     `;
 }
 

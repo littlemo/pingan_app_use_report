@@ -481,3 +481,145 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.evaluation-section {
+  margin-bottom: 2rem;
+}
+
+.evaluation-section:last-child {
+  margin-bottom: 0;
+}
+
+.evaluation-section-title {
+  font-size: 1.25rem;
+  color: var(--brand-blue);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border-gray);
+}
+
+.evaluation-subsection {
+  margin-bottom: 1.5rem;
+}
+
+.evaluation-subsection:last-child {
+  margin-bottom: 0;
+}
+
+.evaluation-subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1rem;
+  border-left: 4px solid;
+}
+
+.evaluation-subtitle.positive {
+  color: var(--severity-green);
+  border-left-color: var(--severity-green);
+}
+
+.evaluation-subtitle.negative {
+  color: var(--severity-red);
+  border-left-color: var(--severity-red);
+}
+
+.evaluation-list {
+  color: var(--text-dark);
+  line-height: 1.8;
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.evaluation-list li {
+  margin-bottom: 0.5rem;
+}
+
+.evaluation-list li:last-child {
+  margin-bottom: 0;
+}
+
+.deduction-list li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.deduction-tag {
+  display: inline-block;
+  flex-shrink: 0;
+  padding: 0.125rem 0.625rem;
+  background-color: var(--severity-red);
+  color: white;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.roadmap-phase {
+  margin-bottom: 1.25rem;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border-left: 4px solid;
+}
+
+.roadmap-phase:last-child {
+  margin-bottom: 0;
+}
+
+.roadmap-phase.phase-urgent {
+  background-color: rgba(211, 47, 47, 0.08);
+  border-left-color: var(--severity-red);
+}
+
+.roadmap-phase.phase-improve {
+  background-color: rgba(245, 124, 0, 0.08);
+  border-left-color: var(--severity-orange);
+}
+
+.roadmap-phase.phase-optimize {
+  background-color: rgba(25, 118, 210, 0.08);
+  border-left-color: var(--severity-blue);
+}
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.phase-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}
+
+.phase-badge.urgent {
+  background-color: var(--severity-red);
+}
+
+.phase-badge.improve {
+  background-color: var(--severity-orange);
+}
+
+.phase-badge.optimize {
+  background-color: var(--severity-blue);
+}
+
+.phase-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.phase-content {
+  margin: 0;
+  color: var(--text-dark);
+  line-height: 1.7;
+}
