@@ -271,7 +271,36 @@ function renderEvaluation() {
 
 function renderSummary() {
     const summaryText = document.getElementById('summaryText');
-    summaryText.textContent = '平安证券10.6.3预发布版本整体完成度较高，是一个有潜力的AI金融助手雏形。产品架构完整清晰，AI Agent能力迭代明显，用户体验基础扎实，金融专业性方向明确。建议优先解决闪退等P0级别严重问题，再逐步完善功能和优化细节，有望达到5分水准。';
+    summaryText.innerHTML = `
+        <div class="summary-content">
+            <div class="summary-highlight">
+                <span class="summary-icon">✨</span>
+                <p class="summary-main">平安证券10.6.3预发布版本整体完成度较高，是一个有潜力的AI金融助手雏形。</p>
+            </div>
+            <div class="summary-points">
+                <div class="summary-point">
+                    <span class="point-bullet">✓</span>
+                    <span>产品架构完整清晰</span>
+                </div>
+                <div class="summary-point">
+                    <span class="point-bullet">✓</span>
+                    <span>AI Agent能力迭代明显</span>
+                </div>
+                <div class="summary-point">
+                    <span class="point-bullet">✓</span>
+                    <span>用户体验基础扎实</span>
+                </div>
+                <div class="summary-point">
+                    <span class="point-bullet">✓</span>
+                    <span>金融专业性方向明确</span>
+                </div>
+            </div>
+            <div class="summary-footer">
+                <span class="footer-icon">🚀</span>
+                <p class="footer-text">建议优先解决闪退等P0级别严重问题，再逐步完善功能和优化细节，有望达到5分水准。</p>
+            </div>
+        </div>
+    `;
 }
 
 function initEventListeners() {
