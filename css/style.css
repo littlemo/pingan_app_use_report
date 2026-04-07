@@ -202,9 +202,30 @@ body {
 }
 
 .issue-card .issue-title {
-  margin: 1rem 0 0.5rem;
+  margin: 1rem 0 0.75rem;
   font-size: 1.25rem;
   color: var(--text-dark);
+}
+
+.issue-card .issue-time {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding: 0.625rem 1rem;
+  background-color: var(--bg-light);
+  border-radius: 6px;
+  color: var(--text-medium);
+  font-size: 0.875rem;
+}
+
+.issue-card .time-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.issue-card .time-text {
+  font-weight: 500;
 }
 
 .issue-card .issue-section {
@@ -231,15 +252,6 @@ body {
   margin: 0;
 }
 
-.issue-card .issue-meta {
-  margin-top: 0.75rem;
-  color: var(--text-medium);
-  font-size: 0.875rem;
-}
-
-.issue-card .meta-item {
-  display: inline-block;
-}
 
 .issue-card .issue-steps {
   color: var(--text-dark);

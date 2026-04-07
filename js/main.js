@@ -67,17 +67,17 @@ function renderIssues() {
                 <span class="module-tag">${issue.module}</span>
             </div>
             <h3 class="issue-title">${issue.title}</h3>
+            ${issue.time ? `
+            <div class="issue-time">
+                <span class="time-icon">🕐</span>
+                <span class="time-text">${issue.time}</span>
+            </div>
+            ` : ''}
 
             <div class="issue-section">
                 <h4 class="issue-section-title">问题描述</h4>
                 <p class="issue-description">${issue.description.replace(/\n/g, '<br>')}</p>
             </div>
-
-            ${issue.time ? `
-            <div class="issue-meta">
-                <span class="meta-item"><strong>时间:</strong> ${issue.time}</span>
-            </div>
-            ` : ''}
 
             ${issue.steps && issue.steps.length > 0 ? `
             <div class="issue-section">
