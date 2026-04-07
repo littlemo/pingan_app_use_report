@@ -68,11 +68,12 @@ function renderIssues() {
             </div>
             <h3 class="issue-title">${issue.title}</h3>
             <p>${issue.description}</p>
+            ${issue.time ? `<p><strong>时间:</strong> ${issue.time}</p>` : ''}
             ${issue.screenshots.length > 0 || issue.videos.length > 0 ? `
                 <div class="screenshot-grid">
                     ${issue.screenshots.map((s, idx) => `
                         <img src="${s}" alt="截图${idx + 1}" class="screenshot-thumb"
-                             onclick="openLightbox(${issue.id}, 'screenshots', ${idx})">
+                             onclick="openLightbox(${issue.id}, ${idx})">
                     `).join('')}
                     ${issue.videos.map((v, idx) => `
                         <a href="${v}" target="_blank" class="video-link">
@@ -81,12 +82,6 @@ function renderIssues() {
                     `).join('')}
                 </div>
             ` : ''}
-            <button class="toggle-btn" onclick="toggleIssue(${issue.id})">
-                展开详情 ▼
-            </button>
-            <div class="issue-details">
-                ${issue.time ? `<p><strong>时间:</strong> ${issue.time}</p>` : ''}
-            </div>
         </div>
     `).join('');
 }
@@ -155,7 +150,7 @@ function initCharts() {
             datasets: [{
                 label: '问题数量',
                 data: Object.values(statistics.byModule),
-                backgroundColor: '#1E88E5'
+                backgroundColor: '#DB5C34'
             }]
         },
         options: {
@@ -280,15 +275,7 @@ function handleNavClick(e) {
     }
 }
 
-function toggleIssue(issueId) {
-    const card = document.querySelector(`[data-issue-id="${issueId}"]`);
-    const btn = card.querySelector('.toggle-btn');
-
-    card.classList.toggle('expanded');
-    btn.textContent = card.classList.contains('expanded') ? '收起详情 ▲' : '展开详情 ▼';
-}
-
-function openLightbox(issueId, type, index) {
+function openLightbox(issueId, index) {
     const issue = reportData.issues.find(i => i.id === issueId);
     currentImages = issue.screenshots;
     currentImageIndex = index;

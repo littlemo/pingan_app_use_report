@@ -1,5 +1,6 @@
 :root {
-  --brand-blue: #1E88E5;
+  --brand-blue: #DB5C34;
+  --brand-blue-dark: #B84A2A;
   --pingan-orange: #FF6B00;
   --text-dark: #333333;
   --text-medium: #666666;
@@ -121,7 +122,7 @@ body {
 .score-card {
   text-align: center;
   padding: 2rem;
-  background: linear-gradient(135deg, var(--brand-blue), #1565C0);
+  background: linear-gradient(135deg, var(--brand-blue), var(--brand-blue-dark));
   color: white;
   border-radius: 8px;
   margin-bottom: 2rem;
@@ -203,22 +204,8 @@ body {
 
 .issue-card .issue-details {
   color: var(--text-medium);
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
 }
 
-.issue-card.expanded .issue-details {
-  max-height: 2000px;
-}
-
-.issue-card .toggle-btn {
-  background: none;
-  border: none;
-  color: var(--brand-blue);
-  cursor: pointer;
-  padding: 0.5rem 0;
-}
 
 .highlight-list {
   display: grid;
@@ -252,7 +239,7 @@ body {
 }
 
 .stat-card {
-  background: linear-gradient(135deg, var(--brand-blue), #1565C0);
+  background: linear-gradient(135deg, var(--brand-blue), var(--brand-blue-dark));
   color: white;
   padding: 1.5rem;
   border-radius: 8px;
