@@ -203,7 +203,7 @@ const reportData = {
       title: "五大选股功能头像区分度不足",
       description: "财小安频道选股功能下，五大选股功能的财小安头像区分度不够。\n\n当前只有右下角的小图标有区分性，建议头像本身也根据板块特性调整虚拟形象，会更有辨识度一些。",
       time: "",
-      screenshots: [],
+      screenshots: ["imgs/IMG_8369.PNG"],
       videos: [],
       steps: [],
       expectedResult: "为五大选股功能设计不同的财小安虚拟形象，增强辨识度",
