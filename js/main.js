@@ -411,6 +411,12 @@ function openVideoLightbox(issueId, index) {
     video.src = currentVideos[currentImageIndex];
     lightbox.classList.add('active');
 
+    video.onloadedmetadata = function() {
+        video.play().catch(function(error) {
+            console.log('自动播放被阻止，需用户手动点击播放:', error);
+        });
+    };
+
     updateLightboxNav();
 }
 
