@@ -62,14 +62,49 @@ function renderIssues() {
 
     issuesList.innerHTML = filteredIssues.map(issue => `
         <div class="issue-card" data-issue-id="${issue.id}">
-            <div>
+            <div class="issue-header">
                 <span class="severity-badge severity-${issue.priority}">${issue.priority} ${issue.severity}</span>
                 <span class="module-tag">${issue.module}</span>
             </div>
             <h3 class="issue-title">${issue.title}</h3>
-            <p>${issue.description}</p>
-            ${issue.time ? `<p><strong>时间:</strong> ${issue.time}</p>` : ''}
+
+            <div class="issue-section">
+                <h4 class="issue-section-title">问题描述</h4>
+                <p class="issue-description">${issue.description.replace(/\n/g, '<br>')}</p>
+            </div>
+
+            ${issue.time ? `
+            <div class="issue-meta">
+                <span class="meta-item"><strong>时间:</strong> ${issue.time}</span>
+            </div>
+            ` : ''}
+
+            ${issue.steps && issue.steps.length > 0 ? `
+            <div class="issue-section">
+                <h4 class="issue-section-title">复现步骤</h4>
+                <ol class="issue-steps">
+                    ${issue.steps.map(step => `<li>${step}</li>`).join('')}
+                </ol>
+            </div>
+            ` : ''}
+
+            ${issue.expectedResult ? `
+            <div class="issue-section">
+                <h4 class="issue-section-title">预期结果</h4>
+                <p class="issue-result">${issue.expectedResult}</p>
+            </div>
+            ` : ''}
+
+            ${issue.actualResult ? `
+            <div class="issue-section">
+                <h4 class="issue-section-title">实际结果</h4>
+                <p class="issue-result">${issue.actualResult}</p>
+            </div>
+            ` : ''}
+
             ${issue.screenshots.length > 0 || issue.videos.length > 0 ? `
+            <div class="issue-section">
+                <h4 class="issue-section-title">附件</h4>
                 <div class="screenshot-grid">
                     ${issue.screenshots.map((s, idx) => `
                         <img src="${s}" alt="截图${idx + 1}" class="screenshot-thumb"
@@ -81,6 +116,7 @@ function renderIssues() {
                         </a>
                     `).join('')}
                 </div>
+            </div>
             ` : ''}
         </div>
     `).join('');

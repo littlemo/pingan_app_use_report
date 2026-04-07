@@ -59,7 +59,15 @@ const reportData = {
       description: "点击引用来源文章后APP发生闪退，严重影响使用体验。",
       time: "2026-04-06 23:18",
       screenshots: ["imgs/IMG_8334.PNG", "imgs/IMG_8335.PNG", "imgs/IMG_8336.PNG"],
-      videos: ["imgs/ScreenRecording_04-06-2026 23-35-59_1.MP4"]
+      videos: ["imgs/ScreenRecording_04-06-2026 23-35-59_1.MP4"],
+      steps: [
+        "提问：\"结合4月03号A股收盘数据和消息面、技术面、情绪面等关键信息，分析市场整体走势的核心驱动因素\"",
+        "查看财小安的回答，找到「何帆教授\"九层股市利益金字塔\"理论」段落",
+        "点击引用来源\"④\"",
+        "点击引用来源文章"
+      ],
+      expectedResult: "",
+      actualResult: "APP发生闪退"
     },
     {
       id: 2,
@@ -67,10 +75,13 @@ const reportData = {
       severity: "严重",
       module: "盯盘功能",
       title: "来源引用标注错误",
-      description: "「何帆教授“九层股市利益金字塔”理论」一段引用来源标注为“④”，但点击后看到④的内容与此无关，真正有关的是第九条引用来源。",
+      description: "「何帆教授\"九层股市利益金字塔\"理论」一段引用来源标注为\"④\"，但点击后看到④的内容与此无关，真正有关的是第九条引用来源。",
       time: "2026-04-06 23:18",
       screenshots: [],
-      videos: []
+      videos: [],
+      steps: [],
+      expectedResult: "引用编号与内容正确匹配，提高信息可信度",
+      actualResult: ""
     },
     {
       id: 3,
@@ -78,10 +89,16 @@ const reportData = {
       severity: "重要",
       module: "持仓查询",
       title: "个人持仓信息未接入数据源",
-      description: "个人持仓信息仍未接入到模型数据源中，无法查询“我都持有哪些股票”。",
+      description: "个人持仓信息仍未接入到模型数据源中，无法查询\"我都持有哪些股票\"。",
       time: "2026-04-07 02:08",
       screenshots: ["imgs/IMG_8359.PNG"],
-      videos: []
+      videos: [],
+      steps: [
+        "提问：\"我都持有哪些股票\"",
+        "查看财小安的回答"
+      ],
+      expectedResult: "模型能够读取并展示用户的个人持仓信息",
+      actualResult: ""
     },
     {
       id: 4,
@@ -92,7 +109,14 @@ const reportData = {
       description: "点击盯盘中历史消息的延伸问题，跳转后未包含历史消息中的时间信息，返回了错误日期的分析结果。",
       time: "2026-04-06 23:40",
       screenshots: ["imgs/IMG_8339.PNG"],
-      videos: []
+      videos: [],
+      steps: [
+        "点击盯盘中的一条历史消息（04-02 14:03）",
+        "点击午后动向中的延伸问题\"哪些因素导致今日市场走弱？\"",
+        "查看跳转后的财小安提问信息和回答"
+      ],
+      expectedResult: "跳转后应包含历史消息中的时间信息（04-02），返回04-02日的市场走弱分析",
+      actualResult: "返回了04-03日的市场走弱分析，与预期不符"
     },
     {
       id: 5,
@@ -100,10 +124,13 @@ const reportData = {
       severity: "重要",
       module: "盯盘功能",
       title: "涨跌分布等数据无法正常展示",
-      description: "涨跌分布、总成交额、资金走势内容很快闪过一条“正在总结”文案，然后就显示“暂无数据”。",
+      description: "涨跌分布、总成交额、资金走势内容很快闪过一条\"正在总结\"文案，然后就显示\"暂无数据\"。",
       time: "2026-04-06",
       screenshots: [],
-      videos: ["imgs/ScreenRecording_04-06-2026 23-46-09_1.MP4"]
+      videos: ["imgs/ScreenRecording_04-06-2026 23-46-09_1.MP4"],
+      steps: [],
+      expectedResult: "数据正常加载并展示，或显示明确的加载状态，不应出现\"正在总结\"后立即显示\"暂无数据\"的情况",
+      actualResult: ""
     },
     {
       id: 6,
@@ -114,7 +141,13 @@ const reportData = {
       description: "财小安回答中存在样式渲染错误，在两端文字中间空出了大量错误空行。",
       time: "2026-04-06 22:47",
       screenshots: ["imgs/IMG_8331.PNG"],
-      videos: []
+      videos: [],
+      steps: [
+        "提问：\"CPO概念近期投资机会分析\"",
+        "查看财小安的回答"
+      ],
+      expectedResult: "回答内容排版正常，无异常空行",
+      actualResult: ""
     },
     {
       id: 7,
@@ -122,10 +155,13 @@ const reportData = {
       severity: "一般",
       module: "选股功能",
       title: "语音播放时希望高亮当前句子",
-      description: "语音播放回复消息时，希望可以将当前阅读的句子高亮，方便长文本阅读时进行位置定位。",
+      description: "语音播放回复消息时，希望可以将当前阅读的句子高亮，方便长文本阅读时进行位置定位。\n\n很多专业性的分析结果内容中包含大量专有名词和缩写，TTS输出的结果可能会出现错误或与用户预期发音不同的情况，此时可以快速定位到所读句子将可以更好的辅助理解模型输出内容。",
       time: "",
       screenshots: [],
-      videos: []
+      videos: [],
+      steps: [],
+      expectedResult: "语音播放时，当前朗读的句子有高亮显示，方便用户跟随阅读",
+      actualResult: ""
     },
     {
       id: 8,
@@ -136,7 +172,10 @@ const reportData = {
       description: "由于模型回复信息较多，建议支持用户从指定段落开始朗读，避免用户走神漏听后只能完整重头听的窘境。",
       time: "",
       screenshots: [],
-      videos: []
+      videos: [],
+      steps: [],
+      expectedResult: "在长文本回复中，允许用户点击任意段落开始语音播放，或提供断点续播功能",
+      actualResult: ""
     },
     {
       id: 9,
@@ -144,10 +183,13 @@ const reportData = {
       severity: "一般",
       module: "选股功能",
       title: "专业名词语音阅读不够严谨",
-      description: "部分专业名词的语音阅读错误，对于专业的金融服务产品不够严谨。例如“ROE”应该三个字母分开阅读（R-O-E），但实际TTS错误地将其作为一个单词朗读。",
+      description: "部分专业名词的语音阅读错误，对于专业的金融服务产品不够严谨。\n\n例如\"ROE\"应该三个字母分开阅读（R-O-E），但实际TTS错误地将其作为一个单词朗读。",
       time: "",
       screenshots: [],
-      videos: []
+      videos: [],
+      steps: [],
+      expectedResult: "建立金融专业术语词典，对常见的金融缩写（如ROE、PE、PB、EPS、ROA等）进行特殊处理，确保按字母分开朗读",
+      actualResult: ""
     },
     {
       id: 10,
@@ -155,10 +197,13 @@ const reportData = {
       severity: "轻微",
       module: "选股功能",
       title: "五大选股功能头像区分度不足",
-      description: "财小安频道选股功能下，五大选股功能的财小安头像区分度不够。当前只有右下角的小图标有区分性，建议头像本身也根据板块特性调整虚拟形象，会更有辨识度一些。",
+      description: "财小安频道选股功能下，五大选股功能的财小安头像区分度不够。\n\n当前只有右下角的小图标有区分性，建议头像本身也根据板块特性调整虚拟形象，会更有辨识度一些。",
       time: "",
       screenshots: [],
-      videos: []
+      videos: [],
+      steps: [],
+      expectedResult: "为五大选股功能设计不同的财小安虚拟形象，增强辨识度",
+      actualResult: ""
     }
   ],
   statistics: {

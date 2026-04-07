@@ -197,9 +197,69 @@ body {
   color: var(--text-medium);
 }
 
+.issue-card .issue-header {
+  margin-bottom: 1rem;
+}
+
 .issue-card .issue-title {
   margin: 1rem 0 0.5rem;
   font-size: 1.25rem;
+  color: var(--text-dark);
+}
+
+.issue-card .issue-section {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-gray);
+}
+
+.issue-card .issue-section:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.issue-card .issue-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--brand-blue);
+  margin-bottom: 0.5rem;
+}
+
+.issue-card .issue-description {
+  color: var(--text-dark);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.issue-card .issue-meta {
+  margin-top: 0.75rem;
+  color: var(--text-medium);
+  font-size: 0.875rem;
+}
+
+.issue-card .meta-item {
+  display: inline-block;
+}
+
+.issue-card .issue-steps {
+  color: var(--text-dark);
+  line-height: 1.8;
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.issue-card .issue-steps li {
+  margin-bottom: 0.5rem;
+}
+
+.issue-card .issue-steps li:last-child {
+  margin-bottom: 0;
+}
+
+.issue-card .issue-result {
+  color: var(--text-dark);
+  line-height: 1.8;
+  margin: 0;
 }
 
 .issue-card .issue-details {
