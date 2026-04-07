@@ -2,6 +2,8 @@ let currentFilter = 'all';
 let currentModule = 'all';
 let currentImageIndex = 0;
 let currentImages = [];
+let currentMediaType = 'image'; // 'image' or 'video'
+let currentVideos = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     initPage();
@@ -109,12 +111,14 @@ function renderIssues() {
                 <div class="screenshot-grid">
                     ${issue.screenshots.map((s, idx) => `
                         <img src="${s}" alt="截图${idx + 1}" class="screenshot-thumb"
-                             onclick="openLightbox(${issue.id}, ${idx})">
+                             onclick="openImageLightbox(${issue.id}, ${idx})">
                     `).join('')}
                     ${issue.videos.map((v, idx) => `
-                        <a href="${v}" target="_blank" class="video-link">
-                            🎬 视频${idx + 1}
-                        </a>
+                        <div class="video-thumb" onclick="openVideoLightbox(${issue.id}, ${idx})">
+                            <span class="video-icon">🎬</span>
+                            <span class="video-label">视频${idx + 1}</span>
+                            <span class="play-overlay">▶</span>
+                        </div>
                     `).join('')}
                 </div>
             </div>
@@ -373,26 +377,58 @@ function handleNavClick(e) {
     }
 }
 
-function openLightbox(issueId, index) {
+function openImageLightbox(issueId, index) {
     const issue = reportData.issues.find(i => i.id === issueId);
     currentImages = issue.screenshots;
     currentImageIndex = index;
+    currentMediaType = 'image';
 
     const lightbox = document.getElementById('lightbox');
     const img = document.getElementById('lightboxImage');
+    const video = document.getElementById('lightboxVideo');
 
+    video.style.display = 'none';
+    video.pause();
+    img.style.display = 'block';
     img.src = currentImages[currentImageIndex];
     lightbox.classList.add('active');
 
     updateLightboxNav();
 }
 
+function openVideoLightbox(issueId, index) {
+    const issue = reportData.issues.find(i => i.id === issueId);
+    currentVideos = issue.videos;
+    currentImageIndex = index;
+    currentMediaType = 'video';
+
+    const lightbox = document.getElementById('lightbox');
+    const img = document.getElementById('lightboxImage');
+    const video = document.getElementById('lightboxVideo');
+
+    img.style.display = 'none';
+    video.style.display = 'block';
+    video.src = currentVideos[currentImageIndex];
+    lightbox.classList.add('active');
+
+    updateLightboxNav();
+}
+
+function openLightbox(issueId, index) {
+    openImageLightbox(issueId, index);
+}
+
 function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('active');
+    const lightbox = document.getElementById('lightbox');
+    const video = document.getElementById('lightboxVideo');
+
+    video.pause();
+    video.src = '';
+    lightbox.classList.remove('active');
 }
 
 function showPrevImage() {
-    if (currentImageIndex > 0) {
+    if (currentMediaType === 'image' && currentImageIndex > 0) {
         currentImageIndex--;
         document.getElementById('lightboxImage').src = currentImages[currentImageIndex];
         updateLightboxNav();
@@ -400,7 +436,7 @@ function showPrevImage() {
 }
 
 function showNextImage() {
-    if (currentImageIndex < currentImages.length - 1) {
+    if (currentMediaType === 'image' && currentImageIndex < currentImages.length - 1) {
         currentImageIndex++;
         document.getElementById('lightboxImage').src = currentImages[currentImageIndex];
         updateLightboxNav();
@@ -408,8 +444,16 @@ function showNextImage() {
 }
 
 function updateLightboxNav() {
-    document.getElementById('prevImage').style.display = currentImageIndex > 0 ? 'block' : 'none';
-    document.getElementById('nextImage').style.display = currentImageIndex < currentImages.length - 1 ? 'block' : 'none';
+    const prevBtn = document.getElementById('prevImage');
+    const nextBtn = document.getElementById('nextImage');
+
+    if (currentMediaType === 'image' && currentImages.length > 1) {
+        prevBtn.style.display = currentImageIndex > 0 ? 'block' : 'none';
+        nextBtn.style.display = currentImageIndex < currentImages.length - 1 ? 'block' : 'none';
+    } else {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+    }
 }
 
 function handleScroll() {

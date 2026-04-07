@@ -387,6 +387,79 @@ body {
   transform: scale(1.05);
 }
 
+.video-thumb {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  background: linear-gradient(135deg, rgba(219, 92, 52, 0.15), rgba(184, 74, 42, 0.1));
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.video-thumb::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--brand-blue), var(--brand-blue-dark));
+  opacity: 0.1;
+  transition: opacity 0.2s ease;
+}
+
+.video-thumb:hover::before {
+  opacity: 0.2;
+}
+
+.video-thumb:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(219, 92, 52, 0.3);
+}
+
+.video-icon {
+  font-size: 2rem;
+  z-index: 1;
+}
+
+.video-label {
+  font-size: 0.875rem;
+  color: var(--text-dark);
+  font-weight: 500;
+  z-index: 1;
+}
+
+.play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, var(--brand-blue), var(--brand-blue-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.25rem;
+  padding-left: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 2;
+}
+
+.video-thumb:hover .play-overlay {
+  opacity: 1;
+}
+
 .lightbox {
   position: fixed;
   top: 0;
@@ -408,6 +481,14 @@ body {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
+}
+
+.lightbox video {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 8px;
+  outline: none;
 }
 
 .lightbox .close-btn {
