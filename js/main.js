@@ -28,10 +28,23 @@ function renderOverview() {
     const stars = '⭐'.repeat(overview.score) + '☆'.repeat(overview.maxScore - overview.score);
 
     scoreCard.innerHTML = `
-        <div class="score">${overview.score}/${overview.maxScore}</div>
-        <div class="stars">${stars}</div>
-        <div style="margin-top: 1rem; opacity: 0.9;">
-            版本: ${overview.version} | 体验日期: ${overview.date}
+        <div class="score-main">
+            <div class="score">${overview.score}/${overview.maxScore}</div>
+            <div class="stars">${stars}</div>
+        </div>
+        <div class="score-meta">
+            <div class="meta-item">
+                <span class="meta-label">📱 版本</span>
+                <span class="meta-value">${overview.version}</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">📅 体验日期</span>
+                <span class="meta-value">${overview.date}</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">✍️ 报告人</span>
+                <span class="meta-value">小貘</span>
+            </div>
         </div>
     `;
 

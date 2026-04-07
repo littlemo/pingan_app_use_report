@@ -124,8 +124,14 @@ body {
   padding: 2rem;
   background: linear-gradient(135deg, var(--brand-blue), var(--brand-blue-dark));
   color: white;
-  border-radius: 8px;
+  border-radius: 12px;
   margin-bottom: 2rem;
+}
+
+.score-main {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
 .score-card .score {
@@ -135,7 +141,33 @@ body {
 
 .score-card .stars {
   font-size: 2rem;
-  margin: 1rem 0;
+  margin: 0.75rem 0 0;
+}
+
+.score-meta {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.meta-label {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.meta-value {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .filters {
