@@ -29,7 +29,7 @@ function renderOverview() {
         <div class="score">${overview.score}/${overview.maxScore}</div>
         <div class="stars">${stars}</div>
         <div style="margin-top: 1rem; opacity: 0.9;">
-            版本: ${overview.version} | 测试日期: ${overview.date}
+            版本: ${overview.version} | 体验日期: ${overview.date}
         </div>
     `;
 
@@ -60,9 +60,10 @@ function renderIssues() {
         filteredIssues = filteredIssues.filter(i => i.module === currentModule);
     }
 
-    issuesList.innerHTML = filteredIssues.map(issue => `
+    issuesList.innerHTML = filteredIssues.map((issue, index) => `
         <div class="issue-card" data-issue-id="${issue.id}">
             <div class="issue-header">
+                <span class="issue-number">问题${issue.id}</span>
                 <span class="severity-badge severity-${issue.priority}">${issue.priority} ${issue.severity}</span>
                 <span class="module-tag">${issue.module}</span>
             </div>
