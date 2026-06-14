@@ -72,6 +72,7 @@ function initPage() {
   renderHighlights();
   renderFilters();
   renderIssues();
+  renderFilterStatus();
   renderStatistics();
   renderEvaluation();
   renderSummary();
@@ -346,6 +347,31 @@ function handleFilterClick(btn) {
 
   renderFilters();
   renderIssues();
+  renderFilterStatus();
+}
+
+function renderFilterStatus() {
+  const data = getReportData();
+  if (!data) return;
+
+  let filteredIssues = data.issues;
+  if (currentFilter !== "all") {
+    filteredIssues = filteredIssues.filter(function(i) { return i.priority === currentFilter; });
+  }
+  if (currentModule !== "all") {
+    filteredIssues = filteredIssues.filter(function(i) { return i.module === currentModule; });
+  }
+
+  const priorityLabels = { all: '全部级别', P0: 'P0', P1: 'P1', P2: 'P2', P3: 'P3' };
+  const priorityText = priorityLabels[currentFilter] || currentFilter;
+  const moduleText = currentModule === "all" ? "全部模块" : currentModule;
+
+  const statusEl = document.getElementById('filterStatus');
+  if (currentFilter === "all" && currentModule === "all") {
+    statusEl.innerHTML = '当前显示 <span class="status-count">' + filteredIssues.length + '</span> <span class="status-text">个全部问题</span>';
+  } else {
+    statusEl.innerHTML = '当前筛选：<span class="status-text">' + priorityText + '</span> + <span class="status-text">' + moduleText + '</span>，共 <span class="status-count">' + filteredIssues.length + '</span> 个问题';
+  }
 }
 
 function handleNavClick(e) {
