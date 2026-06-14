@@ -564,7 +564,7 @@ function toggleZoom(e) {
   const img = document.getElementById("lightboxImage");
   if (currentScale === 1) {
     currentScale = 3.5; // 点击放大到3.5倍
-    img.style.cursor = "zoom-out";
+    img.style.cursor = "move";
   } else {
     currentScale = 1; // 点击缩小到原始大小
     currentTranslateX = 0;
@@ -577,10 +577,27 @@ function toggleZoom(e) {
 function handleScroll(e) {
   e.preventDefault();
   e.stopPropagation();
-  if (currentScale > 1) {
-    // 放大状态下，滚轮移动图片
-    currentTranslateY -= e.deltaY * 0.8;
-    currentTranslateX -= e.deltaX * 0.8;
+
+  // 按住Ctrl/Command键时滚轮缩放
+  if (e.ctrlKey || e.metaKey) {
+    const delta = e.deltaY > 0 ? -0.2 : 0.2;
+    const newScale = Math.min(Math.max(currentScale + delta, 0.5), 8);
+    if (newScale !== currentScale) {
+      currentScale = newScale;
+      const img = document.getElementById("lightboxImage");
+      img.style.cursor = currentScale > 1 ? "move" : "zoom-in";
+      applyImageTransform();
+    }
+  } else if (currentScale > 1) {
+    // 放大状态下，滚轮移动图片，并进行边界检测
+    const newTranslateY = currentTranslateY - e.deltaY * 0.8;
+    const newTranslateX = currentTranslateX - e.deltaX * 0.8;
+
+    // 简单但有效的边界检测：限制最大平移距离
+    const maxOffset = 2000; // 足够大的限制，保证图片不会完全滚出
+    currentTranslateY = Math.min(Math.max(newTranslateY, -maxOffset), maxOffset);
+    currentTranslateX = Math.min(Math.max(newTranslateX, -maxOffset), maxOffset);
+
     applyImageTransform();
   } else {
     // 原始大小下，滚轮切换上一张/下一张
@@ -603,8 +620,14 @@ function startDrag(e) {
 
 function drag(e) {
   if (isDragging) {
-    currentTranslateX = e.clientX - startX;
-    currentTranslateY = e.clientY - startY;
+    const newTranslateX = e.clientX - startX;
+    const newTranslateY = e.clientY - startY;
+
+    // 拖拽时也进行边界检测
+    const maxOffset = 2000;
+    currentTranslateX = Math.min(Math.max(newTranslateX, -maxOffset), maxOffset);
+    currentTranslateY = Math.min(Math.max(newTranslateY, -maxOffset), maxOffset);
+
     applyImageTransform();
   }
 }
