@@ -11,6 +11,12 @@
 <body>
     <nav class="navbar">
         <h1>平安证券预发布版本体验报告</h1>
+        <div class="version-selector-container">
+            <label for="versionSelector" class="version-label">版本：</label>
+            <select id="versionSelector" class="version-selector">
+            </select>
+            <span id="placeholderBadge" class="placeholder-badge" style="display: none;">待测试</span>
+        </div>
     </nav>
 
     <button class="sidebar-toggle" id="sidebarToggle">
@@ -42,18 +48,9 @@
 
         <section id="issues" class="section">
             <h2>问题与建议</h2>
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all">全部</button>
-                <button class="filter-btn" data-filter="P0">P0 亟待修复</button>
-                <button class="filter-btn" data-filter="P1">P1 重要</button>
-                <button class="filter-btn" data-filter="P2">P2 一般</button>
-                <button class="filter-btn" data-filter="P3">P3 轻微</button>
+            <div class="filters" id="priority-filters">
             </div>
-            <div class="filters">
-                <button class="filter-btn active" data-module="all">全部模块</button>
-                <button class="filter-btn" data-module="选股功能">选股功能</button>
-                <button class="filter-btn" data-module="盯盘功能">盯盘功能</button>
-                <button class="filter-btn" data-module="持仓查询">持仓查询</button>
+            <div class="filters" id="module-filters">
             </div>
             <div id="issuesList"></div>
         </section>
@@ -92,7 +89,9 @@
         ↑
     </button>
 
-    <script src="js/data.js"></script>
+    <script src="js/data/v10.6.3.js"></script>
+    <script src="js/data/v10.6.7.js"></script>
+    <script src="js/data/index.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
