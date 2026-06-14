@@ -87,7 +87,15 @@ function renderOverview() {
   const { overview } = data;
   const stars = "⭐".repeat(overview.score) + "☆".repeat(overview.maxScore - overview.score);
 
-  scoreCard.innerHTML = '<div class="score-main"><div class="score">' + overview.score + '/' + overview.maxScore + '</div><div class="stars">' + stars + '</div></div><div class="score-meta"><div class="meta-item"><span class="meta-label">📱 版本</span><span class="meta-value">' + overview.version + '</span></div><div class="meta-item"><span class="meta-label">📅 体验日期</span><span class="meta-value">' + overview.date + '</span></div><div class="meta-item"><span class="meta-label">✍️ 报告人</span><span class="meta-value">小貘</span></div></div>';
+  let metaHtml = '<div class="score-meta"><div class="meta-item"><span class="meta-label">📱 版本</span><span class="meta-value">' + overview.version + '</span></div><div class="meta-item"><span class="meta-label">📅 体验日期</span><span class="meta-value">' + overview.date + '</span></div>';
+
+  if (overview.device && overview.os) {
+    metaHtml += '<div class="meta-item"><span class="meta-label">📲 设备</span><span class="meta-value">' + overview.device + '</span></div><div class="meta-item"><span class="meta-label">🍎 系统</span><span class="meta-value">' + overview.os + '</span></div>';
+  }
+
+  metaHtml += '<div class="meta-item"><span class="meta-label">✍️ 报告人</span><span class="meta-value">小貘</span></div></div>';
+
+  scoreCard.innerHTML = '<div class="score-main"><div class="score">' + overview.score + '/' + overview.maxScore + '</div><div class="stars">' + stars + '</div></div>' + metaHtml;
 
   overviewText.textContent = data.summary ? data.summary.overviewText : "";
 }

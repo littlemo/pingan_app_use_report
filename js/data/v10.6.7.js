@@ -1,10 +1,12 @@
 const v1067Data = {
   dataStatus: "complete",
   overview: {
-    date: "2026-06-14",
+    date: "2026-06-13 ~ 2026-06-14",
     version: "10.6.7",
     score: 4,
-    maxScore: 5
+    maxScore: 5,
+    device: "iPhone 17 Pro",
+    os: "iOS 26.5.1"
   },
   highlights: [
     {
