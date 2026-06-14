@@ -316,9 +316,12 @@ function initEventListeners() {
     }
   });
 
-  // 图片缩放和拖拽
+  // 图片点击切换缩放
   const lightboxImg = document.getElementById("lightboxImage");
-  lightboxImg.addEventListener("wheel", handleZoom);
+  lightboxImg.addEventListener("click", toggleZoom);
+  // 滚轮滚动图片
+  lightboxImg.addEventListener("wheel", handleScroll);
+  // 拖拽
   lightboxImg.addEventListener("mousedown", startDrag);
   document.addEventListener("mousemove", drag);
   document.addEventListener("mouseup", endDrag);
@@ -403,12 +406,25 @@ function openImageLightbox(issueId, index) {
   const lightbox = document.getElementById("lightbox");
   const img = document.getElementById("lightboxImage");
   const video = document.getElementById("lightboxVideo");
+  const hint = document.getElementById("zoomHint");
 
   video.style.display = "none";
   video.pause();
   img.style.display = "block";
   img.src = currentImages[currentImageIndex];
+  img.style.cursor = "zoom-in";
   lightbox.classList.add('active');
+  hint.style.display = "flex";
+
+  // 3秒后隐藏提示
+  setTimeout(function() {
+    hint.style.opacity = "0";
+    hint.style.transition = "opacity 0.5s";
+    setTimeout(function() {
+      hint.style.display = "none";
+      hint.style.opacity = "1";
+    }, 500);
+  }, 3000);
 
   updateLightboxNav();
 }
@@ -521,24 +537,52 @@ function resetZoom() {
 }
 
 function zoomIn() {
-  currentScale += 0.1;
+  currentScale += 0.5;
   if (currentScale > 5) currentScale = 5;
   applyImageTransform();
 }
 
 function zoomOut() {
-  currentScale -= 0.1;
+  currentScale -= 0.5;
   if (currentScale < 0.5) currentScale = 0.5;
+  if (currentScale < 1) {
+    currentScale = 1;
+    currentTranslateX = 0;
+    currentTranslateY = 0;
+  }
   applyImageTransform();
 }
 
-function handleZoom(e) {
-  e.preventDefault();
-  const delta = e.deltaY > 0 ? -0.1 : 0.1;
-  currentScale += delta;
-  if (currentScale > 5) currentScale = 5;
-  if (currentScale < 0.5) currentScale = 0.5;
+function toggleZoom(e) {
+  e.stopPropagation();
+  const img = document.getElementById("lightboxImage");
+  if (currentScale === 1) {
+    currentScale = 2; // 点击放大到2倍
+    img.style.cursor = "zoom-out";
+  } else {
+    currentScale = 1; // 点击缩小到原始大小
+    currentTranslateX = 0;
+    currentTranslateY = 0;
+    img.style.cursor = "zoom-in";
+  }
   applyImageTransform();
+}
+
+function handleScroll(e) {
+  e.preventDefault();
+  if (currentScale > 1) {
+    // 放大状态下，滚轮移动图片
+    currentTranslateY -= e.deltaY * 0.5;
+    currentTranslateX -= e.deltaX * 0.5;
+    applyImageTransform();
+  } else {
+    // 原始大小下，滚轮切换上一张/下一张
+    if (e.deltaY < 0) {
+      showPrevImage();
+    } else {
+      showNextImage();
+    }
+  }
 }
 
 function startDrag(e) {
