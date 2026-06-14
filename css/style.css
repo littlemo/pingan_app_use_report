@@ -148,19 +148,27 @@ body {
 
 .sidebar-toggle {
   position: fixed;
-  left: 260px;
-  top: 80px;
+  left: 250px;
+  top: 70px;
   z-index: 998;
   background-color: var(--brand-blue);
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0 4px 4px 0;
+  padding: 0.75rem 0.75rem;
+  border-radius: 0 8px 8px 0;
   cursor: pointer;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+  padding-right: 1rem;
+  background-color: var(--brand-blue-dark);
 }
 
 .sidebar-toggle.collapsed {
-  left: 10px;
+  left: 0;
+  border-radius: 0 8px 8px 0;
 }
 
 .sidebar nav a {
@@ -203,6 +211,7 @@ body {
   border-bottom: 2px solid var(--brand-blue);
   padding-bottom: 0.5rem;
   margin-top: 0;
+  margin-bottom: 1.5rem;
 }
 
 .score-card {
@@ -589,6 +598,7 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 2000;
+  overflow: auto;
 }
 
 .lightbox.active {
@@ -599,6 +609,16 @@ body {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.lightbox img:active {
+  cursor: grabbing;
+}
+
+.lightbox img:hover {
+  transform: scale(1.02);
 }
 
 .lightbox video {

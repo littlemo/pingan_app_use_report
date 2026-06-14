@@ -6,6 +6,12 @@ let currentMediaType = "image";
 let currentVideos = [];
 let severityChart = null;
 let moduleChart = null;
+let currentScale = 1;
+let currentTranslateX = 0;
+let currentTranslateY = 0;
+let isDragging = false;
+let startX = 0;
+let startY = 0;
 
 document.addEventListener("DOMContentLoaded", function() {
   initVersionSelector();
@@ -257,8 +263,18 @@ function initEventListeners() {
       if (e.key === "Escape") closeLightbox();
       if (e.key === "ArrowLeft") showPrevImage();
       if (e.key === "ArrowRight") showNextImage();
+      if (e.key === "+" || e.key === "=") zoomIn();
+      if (e.key === "-") zoomOut();
+      if (e.key === "0") resetZoom();
     }
   });
+
+  // 图片缩放和拖拽
+  const lightboxImg = document.getElementById("lightboxImage");
+  lightboxImg.addEventListener("wheel", handleZoom);
+  lightboxImg.addEventListener("mousedown", startDrag);
+  document.addEventListener("mousemove", drag);
+  document.addEventListener("mouseup", endDrag);
 }
 
 function toggleSidebar() {
@@ -311,6 +327,9 @@ function openImageLightbox(issueId, index) {
   currentImages = issue.screenshots;
   currentImageIndex = index;
   currentMediaType = "image";
+
+  // 重置缩放和位置
+  resetZoom();
 
   const lightbox = document.getElementById("lightbox");
   const img = document.getElementById("lightboxImage");
@@ -416,4 +435,60 @@ function handleScroll() {
 
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 图片缩放和拖拽功能
+function applyImageTransform() {
+  const img = document.getElementById("lightboxImage");
+  img.style.transform = 'scale(' + currentScale + ') translate(' + currentTranslateX + 'px, ' + currentTranslateY + 'px)';
+}
+
+function resetZoom() {
+  currentScale = 1;
+  currentTranslateX = 0;
+  currentTranslateY = 0;
+  const img = document.getElementById("lightboxImage");
+  img.style.transform = 'scale(1) translate(0, 0)';
+}
+
+function zoomIn() {
+  currentScale += 0.1;
+  if (currentScale > 5) currentScale = 5;
+  applyImageTransform();
+}
+
+function zoomOut() {
+  currentScale -= 0.1;
+  if (currentScale < 0.5) currentScale = 0.5;
+  applyImageTransform();
+}
+
+function handleZoom(e) {
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? -0.1 : 0.1;
+  currentScale += delta;
+  if (currentScale > 5) currentScale = 5;
+  if (currentScale < 0.5) currentScale = 0.5;
+  applyImageTransform();
+}
+
+function startDrag(e) {
+  if (currentScale > 1) {
+    isDragging = true;
+    startX = e.clientX - currentTranslateX;
+    startY = e.clientY - currentTranslateY;
+    e.preventDefault();
+  }
+}
+
+function drag(e) {
+  if (isDragging) {
+    currentTranslateX = e.clientX - startX;
+    currentTranslateY = e.clientY - startY;
+    applyImageTransform();
+  }
+}
+
+function endDrag() {
+  isDragging = false;
 }
