@@ -14,8 +14,8 @@
     <div class="version-selector-container">
       <label for="versionSelector" class="version-label">版本：</label>
       <select id="versionSelector" class="version-selector">
-        <option value="10.6.3" selected>v10.6.3</option>
-        <option value="10.6.7">v10.6.7 (待测试)</option>
+        <option value="10.6.7" selected>v10.6.7</option>
+        <option value="10.6.3">v10.6.3</option>
       </select>
     </div>
   </nav>
@@ -58,6 +58,14 @@
       </div>
       <div class="filters">
         <button class="filter-btn active" data-module="all">全部模块</button>
+        <button class="filter-btn" data-module="对话交互">对话交互</button>
+        <button class="filter-btn" data-module="消息收藏">消息收藏</button>
+        <button class="filter-btn" data-module="数据脱敏">数据脱敏</button>
+        <button class="filter-btn" data-module="历史消息">历史消息</button>
+        <button class="filter-btn" data-module="基金列表">基金列表</button>
+        <button class="filter-btn" data-module="财小安唤起">财小安唤起</button>
+        <button class="filter-btn" data-module="ETF功能">ETF功能</button>
+        <button class="filter-btn" data-module="能力介绍">能力介绍</button>
         <button class="filter-btn" data-module="选股功能">选股功能</button>
         <button class="filter-btn" data-module="盯盘功能">盯盘功能</button>
         <button class="filter-btn" data-module="持仓查询">持仓查询</button>
@@ -99,7 +107,9 @@
     ↑
   </button>
 
-  <script src="js/data.js"></script>
-  <script src="js/main-simple.js"></script>
+  <script src="js/data/v10.6.7.js"></script>
+  <script src="js/data/v10.6.3.js"></script>
+  <script src="js/data/index.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
