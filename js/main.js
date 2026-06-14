@@ -62,20 +62,58 @@ function destroyCharts() {
 }
 
 function resetFilterButtons() {
-  document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
-  document.querySelector('[data-filter="all"]').classList.add('active');
-  document.querySelectorAll('[data-module]').forEach(b => b.classList.remove('active'));
-  document.querySelector('[data-module="all"]').classList.add('active');
+  currentFilter = "all";
+  currentModule = "all";
 }
 
 function initPage() {
   resetFilterButtons();
   renderOverview();
   renderHighlights();
+  renderFilters();
   renderIssues();
   renderStatistics();
   renderEvaluation();
   renderSummary();
+}
+
+function renderFilters() {
+  const data = getReportData();
+  if (!data) return;
+
+  // 统计优先级数量
+  const priorityCounts = { all: data.issues.length };
+  ['P0', 'P1', 'P2', 'P3'].forEach(function(p) {
+    priorityCounts[p] = data.issues.filter(function(i) { return i.priority === p; }).length;
+  });
+
+  // 生成优先级筛选器
+  const priorityFilters = document.getElementById('priorityFilters');
+  const priorityLabels = { all: '全部', P0: 'P0 亟待修复', P1: 'P1 重要', P2: 'P2 一般', P3: 'P3 轻微' };
+  priorityFilters.innerHTML = Object.keys(priorityLabels).map(function(p) {
+    if (p !== 'all' && priorityCounts[p] === 0) return '';
+    const isActive = (p === 'all' && currentFilter === 'all') || (p === currentFilter);
+    return '<button class="filter-btn' + (isActive ? ' active' : '') + '" data-filter="' + p + '">' + priorityLabels[p] + '<span class="filter-count">(' + priorityCounts[p] + ')</span></button>';
+  }).join('');
+
+  // 统计模块数量
+  const moduleCounts = { all: data.issues.length };
+  const modules = {};
+  data.issues.forEach(function(i) {
+    if (!modules[i.module]) modules[i.module] = 0;
+    modules[i.module]++;
+  });
+  Object.keys(modules).forEach(function(m) {
+    moduleCounts[m] = modules[m];
+  });
+
+  // 生成模块筛选器
+  const moduleFilters = document.getElementById('moduleFilters');
+  let moduleHtml = '<button class="filter-btn' + (currentModule === 'all' ? ' active' : '') + '" data-module="all">全部模块<span class="filter-count">(' + moduleCounts.all + ')</span></button>';
+  Object.keys(modules).sort().forEach(function(m) {
+    moduleHtml += '<button class="filter-btn' + (currentModule === m ? ' active' : '') + '" data-module="' + m + '">' + m + '<span class="filter-count">(' + moduleCounts[m] + ')</span></button>';
+  });
+  moduleFilters.innerHTML = moduleHtml;
 }
 
 function renderOverview() {
@@ -302,14 +340,11 @@ function handleFilterClick(btn) {
 
   if (filter !== undefined) {
     currentFilter = filter;
-    document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
   } else if (module !== undefined) {
     currentModule = module;
-    document.querySelectorAll('[data-module]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
   }
 
+  renderFilters();
   renderIssues();
 }
 
