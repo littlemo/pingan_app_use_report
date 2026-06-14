@@ -532,17 +532,17 @@ function scrollToTop() {
 function applyImageTransform() {
   const img = document.getElementById("lightboxImage");
 
-  // 确保图片至少有一部分在视口内
+  // 确保图片边界在视口内
   if (currentScale > 1) {
-    const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // 估算图片的显示尺寸（简化计算）
-    const maxTranslate = (currentScale - 1) * Math.min(viewportWidth, viewportHeight) / 2 + 100;
+    // 简单但有效的边界限制：基于缩放比例限制最大偏移
+    // 这样无论图片尺寸如何，都能保证不会完全滚出屏幕
+    const maxOffset = viewportHeight * (currentScale - 1) * 0.5;
 
     // 严格限制平移范围
-    currentTranslateX = Math.min(Math.max(currentTranslateX, -maxTranslate), maxTranslate);
-    currentTranslateY = Math.min(Math.max(currentTranslateY, -maxTranslate), maxTranslate);
+    currentTranslateX = Math.min(Math.max(currentTranslateX, -maxOffset), maxOffset);
+    currentTranslateY = Math.min(Math.max(currentTranslateY, -maxOffset), maxOffset);
   } else {
     // 原始大小下重置位置
     currentTranslateX = 0;
@@ -607,12 +607,9 @@ function handleScroll(e) {
       applyImageTransform();
     }
   } else if (currentScale > 1) {
-    // 放大状态下，滚轮移动图片，降低灵敏度应对macOS滚动加速度
-    const scrollFactor = Math.min(Math.abs(e.deltaY), 100) * 0.3;
-    const direction = e.deltaY > 0 ? 1 : -1;
-
-    const newTranslateY = currentTranslateY + direction * scrollFactor;
-    const newTranslateX = currentTranslateX - e.deltaX * 0.3;
+    // 放大状态下，滚轮移动图片，修复滚动方向
+    const newTranslateY = currentTranslateY + e.deltaY * 0.4;
+    const newTranslateX = currentTranslateX + e.deltaX * 0.4;
 
     currentTranslateY = newTranslateY;
     currentTranslateX = newTranslateX;
