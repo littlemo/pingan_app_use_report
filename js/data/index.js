@@ -7,8 +7,8 @@ const versions = {
   '10.6.7': typeof v1067Data !== 'undefined' ? v1067Data : null
 };
 
-// 当前选中的版本 - 默认显示最新版本
-let currentVersion = '10.6.7';
+// 当前选中的版本 - 默认显示完整的10.6.3报告
+let currentVersion = '10.6.3';
 
 // 获取当前版本的数据
 function getReportData(version) {
