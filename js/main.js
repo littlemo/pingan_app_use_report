@@ -416,6 +416,9 @@ function openImageLightbox(issueId, index) {
   lightbox.classList.add('active');
   hint.style.display = "flex";
 
+  // 防止背景滚动
+  document.body.style.overflow = "hidden";
+
   // 3秒后隐藏提示
   setTimeout(function() {
     hint.style.opacity = "0";
@@ -464,6 +467,9 @@ function closeLightbox() {
   video.pause();
   video.src = "";
   lightbox.classList.remove('active');
+
+  // 恢复背景滚动
+  document.body.style.overflow = "";
 }
 
 function showPrevImage() {
@@ -557,7 +563,7 @@ function toggleZoom(e) {
   e.stopPropagation();
   const img = document.getElementById("lightboxImage");
   if (currentScale === 1) {
-    currentScale = 2; // 点击放大到2倍
+    currentScale = 3.5; // 点击放大到3.5倍
     img.style.cursor = "zoom-out";
   } else {
     currentScale = 1; // 点击缩小到原始大小
@@ -570,10 +576,11 @@ function toggleZoom(e) {
 
 function handleScroll(e) {
   e.preventDefault();
+  e.stopPropagation();
   if (currentScale > 1) {
     // 放大状态下，滚轮移动图片
-    currentTranslateY -= e.deltaY * 0.5;
-    currentTranslateX -= e.deltaX * 0.5;
+    currentTranslateY -= e.deltaY * 0.8;
+    currentTranslateX -= e.deltaX * 0.8;
     applyImageTransform();
   } else {
     // 原始大小下，滚轮切换上一张/下一张
