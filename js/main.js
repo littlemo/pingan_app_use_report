@@ -26,7 +26,7 @@ function initVersionSelector() {
   const currentVer = getCurrentVersion();
 
   selector.innerHTML = versions.map(function(v) {
-    return '<option value="' + v + '"' + (v === currentVer ? ' selected' : '') + '>v' + v + '</option>';
+    return '<option value="' + v + '"' + (v === currentVer ? ' selected' : '') + '>APP v' + v + '</option>';
   }).join('');
 
   selector.addEventListener("change", function(e) {
@@ -87,7 +87,7 @@ function renderOverview() {
   const { overview } = data;
   const stars = "⭐".repeat(overview.score) + "☆".repeat(overview.maxScore - overview.score);
 
-  let metaHtml = '<div class="score-meta"><div class="meta-item"><span class="meta-label">📱 版本</span><span class="meta-value">' + overview.version + '</span></div><div class="meta-item"><span class="meta-label">📅 体验日期</span><span class="meta-value">' + overview.date + '</span></div>';
+  let metaHtml = '<div class="score-meta"><div class="meta-item"><span class="meta-label">📱 APP版本</span><span class="meta-value">v' + overview.version + '</span></div><div class="meta-item"><span class="meta-label">📅 体验日期</span><span class="meta-value">' + overview.date + '</span></div>';
 
   if (overview.device && overview.os) {
     metaHtml += '<div class="meta-item"><span class="meta-label">📲 设备</span><span class="meta-value">' + overview.device + '</span></div><div class="meta-item"><span class="meta-label">🍎 系统</span><span class="meta-value">' + overview.os + '</span></div>';
