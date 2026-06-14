@@ -26,7 +26,7 @@ function initVersionSelector() {
   const currentVer = getCurrentVersion();
 
   selector.innerHTML = versions.map(function(v) {
-    return '<option value="' + v + '"' + (v === currentVer ? ' selected' : '') + '>APP v' + v + '</option>';
+    return '<option value="' + v + '"' + (v === currentVer ? ' selected' : '') + '>v' + v + '</option>';
   }).join('');
 
   selector.addEventListener("change", function(e) {
