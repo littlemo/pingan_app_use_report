@@ -4,8 +4,6 @@ let currentImageIndex = 0;
 let currentImages = [];
 let currentMediaType = 'image'; // 'image' or 'video'
 let currentVideos = [];
-let severityChart = null;
-let moduleChart = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     initPage();
@@ -169,13 +167,10 @@ function renderStatistics() {
 }
 
 function initCharts() {
-    // 确保先销毁旧实例，防止内存泄漏
-    destroyCharts();
-
     const { statistics } = reportData;
 
     const severityCtx = document.getElementById('severityChart').getContext('2d');
-    severityChart = new Chart(severityCtx, {
+    new Chart(severityCtx, {
         type: 'pie',
         data: {
             labels: ['严重', '重要', '一般', '轻微'],
@@ -202,7 +197,7 @@ function initCharts() {
     });
 
     const moduleCtx = document.getElementById('moduleChart').getContext('2d');
-    moduleChart = new Chart(moduleCtx, {
+    new Chart(moduleCtx, {
         type: 'bar',
         data: {
             labels: Object.keys(statistics.byModule),
@@ -514,15 +509,4 @@ function scrollToTop() {
         top: 0,
         behavior: 'smooth'
     });
-}
-
-function destroyCharts() {
-    if (severityChart) {
-        severityChart.destroy();
-        severityChart = null;
-    }
-    if (moduleChart) {
-        moduleChart.destroy();
-        moduleChart = null;
-    }
 }
