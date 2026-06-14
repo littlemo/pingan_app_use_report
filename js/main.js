@@ -300,11 +300,10 @@ function initEventListeners() {
   });
 
   document.getElementById("backToTop").addEventListener("click", scrollToTop);
-  window.addEventListener("scroll", handleScroll);
+  window.addEventListener("scroll", handlePageScroll);
   document.getElementById("closeLightbox").addEventListener("click", closeLightbox);
   document.getElementById("prevImage").addEventListener("click", showPrevImage);
   document.getElementById("nextImage").addEventListener("click", showNextImage);
-  document.getElementById("lightbox").addEventListener("click", function(e) { if (e.target === this) closeLightbox(); });
   document.addEventListener("keydown", function(e) {
     if (document.getElementById("lightbox").classList.contains('active')) {
       if (e.key === "Escape") closeLightbox();
@@ -316,11 +315,28 @@ function initEventListeners() {
     }
   });
 
-  // 图片点击切换缩放
+  // 图片点击切换缩放（也可以在整个lightbox区域点击）
+  const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightboxImage");
-  lightboxImg.addEventListener("click", toggleZoom);
-  // 滚轮滚动图片
-  lightboxImg.addEventListener("wheel", handleScroll);
+  lightbox.addEventListener("click", function(e) {
+    // 点击关闭按钮、导航按钮时不触发缩放
+    if (e.target.id === "closeLightbox" ||
+        e.target.id === "prevImage" ||
+        e.target.id === "nextImage" ||
+        e.target.classList.contains("zoom-hint")) {
+      return;
+    }
+    // 点击lightbox背景时关闭，点击图片时切换缩放
+    if (e.target === lightboxImg || e.target === lightbox) {
+      if (e.target === lightbox) {
+        closeLightbox();
+      } else {
+        toggleZoom(e);
+      }
+    }
+  });
+  // 整个lightbox区域都可以滚轮操作
+  lightbox.addEventListener("wheel", handleScroll);
   // 拖拽
   lightboxImg.addEventListener("mousedown", startDrag);
   document.addEventListener("mousemove", drag);
@@ -501,7 +517,7 @@ function updateLightboxNav() {
   }
 }
 
-function handleScroll() {
+function handlePageScroll() {
   const backToTop = document.getElementById("backToTop");
   if (window.scrollY > 300) {
     backToTop.classList.add('visible');
@@ -607,9 +623,10 @@ function handleScroll(e) {
       applyImageTransform();
     }
   } else if (currentScale > 1) {
-    // 放大状态下，滚轮移动图片，修复滚动方向
-    const newTranslateY = currentTranslateY + e.deltaY * 0.4;
-    const newTranslateX = currentTranslateX + e.deltaX * 0.4;
+    // 放大状态下，滚轮移动图片
+    // 向上滚动（deltaY<0）查看图片下方内容 = 图片向上移动（translateY减小）
+    const newTranslateY = currentTranslateY - e.deltaY * 0.4;
+    const newTranslateX = currentTranslateX - e.deltaX * 0.4;
 
     currentTranslateY = newTranslateY;
     currentTranslateX = newTranslateX;
@@ -639,6 +656,7 @@ function startDrag(e) {
 
 function drag(e) {
   if (isDragging) {
+    // 拖拽时也要注意坐标系问题
     currentTranslateX = e.clientX - startX;
     currentTranslateY = e.clientY - startY;
 
