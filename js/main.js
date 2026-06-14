@@ -531,6 +531,24 @@ function scrollToTop() {
 // 图片缩放和拖拽功能
 function applyImageTransform() {
   const img = document.getElementById("lightboxImage");
+
+  // 确保图片至少有一部分在视口内
+  if (currentScale > 1) {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // 估算图片的显示尺寸（简化计算）
+    const maxTranslate = (currentScale - 1) * Math.min(viewportWidth, viewportHeight) / 2 + 100;
+
+    // 严格限制平移范围
+    currentTranslateX = Math.min(Math.max(currentTranslateX, -maxTranslate), maxTranslate);
+    currentTranslateY = Math.min(Math.max(currentTranslateY, -maxTranslate), maxTranslate);
+  } else {
+    // 原始大小下重置位置
+    currentTranslateX = 0;
+    currentTranslateY = 0;
+  }
+
   img.style.transform = 'scale(' + currentScale + ') translate(' + currentTranslateX + 'px, ' + currentTranslateY + 'px)';
 }
 
@@ -580,7 +598,7 @@ function handleScroll(e) {
 
   // 按住Ctrl/Command键时滚轮缩放
   if (e.ctrlKey || e.metaKey) {
-    const delta = e.deltaY > 0 ? -0.2 : 0.2;
+    const delta = e.deltaY > 0 ? -0.15 : 0.15;
     const newScale = Math.min(Math.max(currentScale + delta, 0.5), 8);
     if (newScale !== currentScale) {
       currentScale = newScale;
@@ -589,22 +607,26 @@ function handleScroll(e) {
       applyImageTransform();
     }
   } else if (currentScale > 1) {
-    // 放大状态下，滚轮移动图片，并进行边界检测
-    const newTranslateY = currentTranslateY - e.deltaY * 0.8;
-    const newTranslateX = currentTranslateX - e.deltaX * 0.8;
+    // 放大状态下，滚轮移动图片，降低灵敏度应对macOS滚动加速度
+    const scrollFactor = Math.min(Math.abs(e.deltaY), 100) * 0.3;
+    const direction = e.deltaY > 0 ? 1 : -1;
 
-    // 简单但有效的边界检测：限制最大平移距离
-    const maxOffset = 2000; // 足够大的限制，保证图片不会完全滚出
-    currentTranslateY = Math.min(Math.max(newTranslateY, -maxOffset), maxOffset);
-    currentTranslateX = Math.min(Math.max(newTranslateX, -maxOffset), maxOffset);
+    const newTranslateY = currentTranslateY + direction * scrollFactor;
+    const newTranslateX = currentTranslateX - e.deltaX * 0.3;
 
+    currentTranslateY = newTranslateY;
+    currentTranslateX = newTranslateX;
+
+    // applyImageTransform会自动处理边界检测
     applyImageTransform();
   } else {
-    // 原始大小下，滚轮切换上一张/下一张
-    if (e.deltaY < 0) {
-      showPrevImage();
-    } else {
-      showNextImage();
+    // 原始大小下，滚轮切换上一张/下一张，增加阈值防止误触
+    if (Math.abs(e.deltaY) > 30) {
+      if (e.deltaY < 0) {
+        showPrevImage();
+      } else {
+        showNextImage();
+      }
     }
   }
 }
@@ -620,14 +642,10 @@ function startDrag(e) {
 
 function drag(e) {
   if (isDragging) {
-    const newTranslateX = e.clientX - startX;
-    const newTranslateY = e.clientY - startY;
+    currentTranslateX = e.clientX - startX;
+    currentTranslateY = e.clientY - startY;
 
-    // 拖拽时也进行边界检测
-    const maxOffset = 2000;
-    currentTranslateX = Math.min(Math.max(newTranslateX, -maxOffset), maxOffset);
-    currentTranslateY = Math.min(Math.max(newTranslateY, -maxOffset), maxOffset);
-
+    // applyImageTransform会自动处理边界检测
     applyImageTransform();
   }
 }
