@@ -293,7 +293,7 @@ function toggleSidebar() {
   sidebar.classList.toggle('collapsed');
   mainContent.classList.toggle('expanded');
   toggleBtn.classList.toggle('collapsed');
-  toggleIcon.textContent = sidebar.classList.contains('collapsed') ? '&rang;' : '&lang;';
+  toggleIcon.textContent = sidebar.classList.contains('collapsed') ? '›' : '‹';
 }
 
 function handleFilterClick(btn) {
