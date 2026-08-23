@@ -216,6 +216,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
+
 .score-card {
   text-align: center;
   padding: 2rem;
@@ -237,8 +238,36 @@ body {
 }
 
 .score-card .stars {
-  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.2rem;
+  font-size: 2.25rem;
   margin: 0.75rem 0 0;
+}
+
+.score-card .star {
+  display: inline-block;
+  line-height: 1;
+  font-family: Arial, sans-serif;
+}
+
+.score-card .star.full {
+  color: #FFD54F;
+  text-shadow: 0 1px 2px rgba(120, 72, 0, 0.35);
+}
+
+.score-card .star.empty {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.9);
+}
+
+.score-card .star.half {
+  color: transparent;
+  background: linear-gradient(90deg, #FFD54F 50%, rgba(255, 255, 255, 0.35) 50%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 2px rgba(120, 72, 0, 0.25);
 }
 
 .score-meta {

@@ -1,9 +1,10 @@
 const versions = {
+  "10.7.0": typeof v1070Data !== "undefined" ? v1070Data : null,
   "10.6.7": typeof v1067Data !== "undefined" ? v1067Data : null,
   "10.6.3": typeof v1063Data !== "undefined" ? v1063Data : null
 };
 
-let currentVersion = "10.6.7";
+let currentVersion = "10.7.0";
 
 function getReportData(version) {
   const ver = version || currentVersion;

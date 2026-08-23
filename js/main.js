@@ -124,7 +124,13 @@ function renderOverview() {
   const scoreCard = document.getElementById("scoreCard");
   const overviewText = document.getElementById("overviewText");
   const { overview } = data;
-  const stars = "⭐".repeat(overview.score) + "☆".repeat(overview.maxScore - overview.score);
+  const fullStars = Math.floor(overview.score);
+  const hasHalfStar = overview.score % 1 >= 0.5;
+  const emptyStars = overview.maxScore - fullStars - (hasHalfStar ? 1 : 0);
+  let stars = '';
+  for (let i = 0; i < fullStars; i++) stars += '<span class="star full" aria-label="满星">★</span>';
+  if (hasHalfStar) stars += '<span class="star half" aria-label="半星">★</span>';
+  for (let i = 0; i < Math.max(0, emptyStars); i++) stars += '<span class="star empty" aria-label="空星">★</span>';
 
   let metaHtml = '<div class="score-meta"><div class="meta-item"><span class="meta-label">📱 APP版本</span><span class="meta-value">v' + overview.version + '</span></div><div class="meta-item"><span class="meta-label">📅 体验日期</span><span class="meta-value">' + overview.date + '</span></div>';
 
