@@ -1,7 +1,8 @@
 const versions = {
   "10.7.0": typeof v1070Data !== "undefined" ? v1070Data : null,
   "10.6.7": typeof v1067Data !== "undefined" ? v1067Data : null,
-  "10.6.3": typeof v1063Data !== "undefined" ? v1063Data : null
+  "10.6.3": typeof v1063Data !== "undefined" ? v1063Data : null,
+  "ai-wealth": typeof aiWealthData !== "undefined" ? aiWealthData : null
 };
 
 let currentVersion = "10.7.0";
@@ -29,6 +30,8 @@ function getAvailableVersions() {
   return Object.keys(versions)
     .filter(function(v) { return versions[v] !== null; })
     .sort(function(a, b) {
+      if (a === "ai-wealth") return 1;
+      if (b === "ai-wealth") return -1;
       const aParts = a.split(".").map(Number);
       const bParts = b.split(".").map(Number);
       for (let i = 0; i < Math.max(aParts.length, bParts.length); i++) {

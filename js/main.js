@@ -14,6 +14,8 @@ let startX = 0;
 let startY = 0;
 
 document.addEventListener("DOMContentLoaded", function() {
+  const requestedVersion = new URLSearchParams(window.location.search).get("version");
+  if (requestedVersion) setCurrentVersion(requestedVersion);
   initVersionSelector();
   initPage();
   initEventListeners();
@@ -26,7 +28,8 @@ function initVersionSelector() {
   const currentVer = getCurrentVersion();
 
   selector.innerHTML = versions.map(function(v) {
-    return '<option value="' + v + '"' + (v === currentVer ? ' selected' : '') + '>v' + v + '</option>';
+    const label = v === "ai-wealth" ? "v10.7.1（AI财富）" : "v" + v;
+    return '<option value="' + v + '"' + (v === currentVer ? ' selected' : '') + '>' + label + '</option>';
   }).join('');
 
   selector.addEventListener("change", function(e) {
@@ -38,6 +41,11 @@ function switchVersion(version) {
   if (!setCurrentVersion(version)) {
     return;
   }
+
+  const url = new URL(window.location.href);
+  if (version === "10.7.0") url.searchParams.delete("version");
+  else url.searchParams.set("version", version);
+  window.history.replaceState({}, "", url);
 
   destroyCharts();
 
@@ -124,15 +132,20 @@ function renderOverview() {
   const scoreCard = document.getElementById("scoreCard");
   const overviewText = document.getElementById("overviewText");
   const { overview } = data;
-  const fullStars = Math.floor(overview.score);
-  const hasHalfStar = overview.score % 1 >= 0.5;
-  const emptyStars = overview.maxScore - fullStars - (hasHalfStar ? 1 : 0);
+  const hasScore = typeof overview.score === "number";
+  const fullStars = hasScore ? Math.floor(overview.score) : 0;
+  const hasHalfStar = hasScore && overview.score % 1 >= 0.5;
+  const emptyStars = hasScore ? overview.maxScore - fullStars - (hasHalfStar ? 1 : 0) : 0;
   let stars = '';
   for (let i = 0; i < fullStars; i++) stars += '<span class="star full" aria-label="满星">★</span>';
   if (hasHalfStar) stars += '<span class="star half" aria-label="半星">★</span>';
   for (let i = 0; i < Math.max(0, emptyStars); i++) stars += '<span class="star empty" aria-label="空星">★</span>';
 
-  let metaHtml = '<div class="score-meta"><div class="meta-item"><span class="meta-label">📱 APP版本</span><span class="meta-value">v' + overview.version + '</span></div><div class="meta-item"><span class="meta-label">📅 体验日期</span><span class="meta-value">' + overview.date + '</span></div>';
+  const versionMatch = String(overview.version).match(/^(.+?)[（(](.+?)[）)]$/);
+  const versionLabel = versionMatch
+    ? 'v' + versionMatch[1] + '<br><small class="version-sub-label">' + versionMatch[2] + '</small>'
+    : 'v' + overview.version;
+  let metaHtml = '<div class="score-meta"><div class="meta-item"><span class="meta-label">📱 APP版本</span><span class="meta-value">' + versionLabel + '</span></div><div class="meta-item"><span class="meta-label">📅 体验日期</span><span class="meta-value">' + overview.date + '</span></div>';
 
   if (overview.device && overview.os) {
     metaHtml += '<div class="meta-item"><span class="meta-label">📲 设备</span><span class="meta-value">' + overview.device + '</span></div><div class="meta-item"><span class="meta-label">🍎 系统</span><span class="meta-value">' + overview.os + '</span></div>';
@@ -140,7 +153,8 @@ function renderOverview() {
 
   metaHtml += '<div class="meta-item"><span class="meta-label">✍️ 报告人</span><span class="meta-value">小貘</span></div></div>';
 
-  scoreCard.innerHTML = '<div class="score-main"><div class="score">' + overview.score + '/' + overview.maxScore + '</div><div class="stars">' + stars + '</div></div>' + metaHtml;
+  const scoreText = hasScore ? overview.score + '/' + overview.maxScore : '待评分';
+  scoreCard.innerHTML = '<div class="score-main"><div class="score">' + scoreText + '</div><div class="stars">' + stars + '</div></div>' + metaHtml;
 
   overviewText.textContent = data.summary ? data.summary.overviewText : "";
 }

@@ -296,6 +296,15 @@ body {
   font-weight: 500;
 }
 
+.version-sub-label {
+  display: inline-block;
+  margin-top: 4px;
+  color: #FFFFFF;
+  font-size: 0.78em;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
 .filter-group {
   display: flex;
   align-items: flex-start;
