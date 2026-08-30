@@ -6,7 +6,8 @@
   <title>平安证券预发布版本体验报告</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <link rel="stylesheet" href="css/style.css">
+  <!-- 发布新版本时递增资源版本号，避免 GitHub Pages/CDN 命中旧缓存。 -->
+  <link rel="stylesheet" href="css/style.css?v=20260830-1">
 </head>
 <body>
   <nav class="navbar">
@@ -105,11 +106,11 @@
     ↑
   </button>
 
-  <script src="js/data/v10.7.0.js"></script>
-  <script src="js/data/v10.6.7.js"></script>
-  <script src="js/data/v10.6.3.js"></script>
-  <script src="js/data/ai-wealth.js"></script>
-  <script src="js/data/index.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/data/v10.7.0.js?v=20260830-1"></script>
+  <script src="js/data/v10.6.7.js?v=20260830-1"></script>
+  <script src="js/data/v10.6.3.js?v=20260830-1"></script>
+  <script src="js/data/ai-wealth.js?v=20260830-1"></script>
+  <script src="js/data/index.js?v=20260830-1"></script>
+  <script src="js/main.js?v=20260830-1"></script>
 </body>
 </html>

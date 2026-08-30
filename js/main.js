@@ -12,6 +12,12 @@ let currentTranslateY = 0;
 let isDragging = false;
 let startX = 0;
 let startY = 0;
+const ASSET_VERSION = "20260830-1";
+
+function withCacheBuster(assetPath) {
+  if (!assetPath || assetPath.indexOf("?") !== -1) return assetPath;
+  return assetPath + "?v=" + ASSET_VERSION;
+}
 
 document.addEventListener("DOMContentLoaded", function() {
   const requestedVersion = new URLSearchParams(window.location.search).get("version");
@@ -190,7 +196,7 @@ function renderIssues() {
 
   issuesList.innerHTML = filteredIssues.map(function(issue) {
     return '<div class="issue-card" data-issue-id="' + issue.id + '"><div class="issue-header"><span class="issue-number">问题' + issue.id + '</span><span class="severity-badge severity-' + issue.priority + '">' + issue.priority + ' ' + issue.severity + '</span><span class="module-tag">' + issue.module + '</span></div><h3 class="issue-title">' + issue.title + '</h3>' + (issue.time ? '<div class="issue-time"><span class="time-icon">🕐</span><span class="time-text">' + issue.time + '</span></div>' : '') + '<div class="issue-section"><h4 class="issue-section-title">问题描述</h4><p class="issue-description">' + issue.description.replace(/\n/g, '<br>') + '</p></div>' + (issue.steps && issue.steps.length > 0 ? '<div class="issue-section"><h4 class="issue-section-title">复现步骤</h4><ol class="issue-steps">' + issue.steps.map(function(s) { return '<li>' + s + '</li>'; }).join('') + '</ol></div>' : '') + (issue.expectedResult ? '<div class="issue-section"><h4 class="issue-section-title">预期结果</h4><p class="issue-result">' + issue.expectedResult + '</p></div>' : '') + (issue.actualResult ? '<div class="issue-section"><h4 class="issue-section-title">实际结果</h4><p class="issue-result">' + issue.actualResult + '</p></div>' : '') + (issue.screenshots.length > 0 || issue.videos.length > 0 ? '<div class="issue-section"><h4 class="issue-section-title">附件</h4><div class="screenshot-grid">' + issue.screenshots.map(function(s, idx) {
-      return '<img src="' + s + '" alt="截图' + (idx + 1) + '" class="screenshot-thumb" onclick="openImageLightbox(' + issue.id + ',' + idx + ')">';
+      return '<img src="' + withCacheBuster(s) + '" alt="截图' + (idx + 1) + '" class="screenshot-thumb" onclick="openImageLightbox(' + issue.id + ',' + idx + ')">';
     }).join('') + issue.videos.map(function(v, idx) {
       return '<div class="video-thumb" onclick="openVideoLightbox(' + issue.id + ',' + idx + ')"><span class="video-icon">🎬</span><span class="video-label">视频' + (idx + 1) + '</span><span class="play-overlay">▶</span></div>';
     }).join('') + '</div></div>' : '') + '</div>';
@@ -447,7 +453,7 @@ function openImageLightbox(issueId, index) {
   video.style.display = "none";
   video.pause();
   img.style.display = "block";
-  img.src = currentImages[currentImageIndex];
+  img.src = withCacheBuster(currentImages[currentImageIndex]);
   img.style.cursor = "zoom-in";
   lightbox.classList.add('active');
   hint.style.display = "flex";
@@ -485,7 +491,7 @@ function openVideoLightbox(issueId, index) {
 
   img.style.display = "none";
   video.style.display = "block";
-  video.src = currentVideos[currentImageIndex];
+  video.src = withCacheBuster(currentVideos[currentImageIndex]);
   lightbox.classList.add('active');
 
   video.onloadedmetadata = function() { video.play().catch(function(error) { console.log('自动播放被阻止，需用户手动点击播放:', error); }); };
@@ -511,7 +517,7 @@ function closeLightbox() {
 function showPrevImage() {
   if (currentMediaType === "image" && currentImageIndex > 0) {
     currentImageIndex--;
-    document.getElementById("lightboxImage").src = currentImages[currentImageIndex];
+    document.getElementById("lightboxImage").src = withCacheBuster(currentImages[currentImageIndex]);
     updateLightboxNav();
   }
 }
@@ -519,7 +525,7 @@ function showPrevImage() {
 function showNextImage() {
   if (currentMediaType === "image" && currentImageIndex < currentImages.length - 1) {
     currentImageIndex++;
-    document.getElementById("lightboxImage").src = currentImages[currentImageIndex];
+    document.getElementById("lightboxImage").src = withCacheBuster(currentImages[currentImageIndex]);
     updateLightboxNav();
   }
 }
