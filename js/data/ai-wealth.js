@@ -35,7 +35,7 @@ const aiWealthData = {
       actualResult: "授权节点会中断对话；授权管理面板虽存在，但入口不够明确，且需要逐项操作。"
     },
     {
-      id: 2, priority: "P1", severity: "重要", module: "功能逻辑 Bug", title: "处理 ETF 横向对比时陷入工具调用循环",
+      id: 2, priority: "P0", severity: "严重", module: "功能逻辑 Bug", title: "处理 ETF 横向对比时陷入工具调用循环",
       description: "处理股息率及 ETF 横向对比消息时，信息收集、工具调用异常、ETF 筛选等状态重复循环，未能正常结束并返回回答。",
       time: "2026-08-30", screenshots: ["imgs/ai-wealth/ai-wealth-tool-loop-failure.png", "imgs/ai-wealth/ai-wealth-tool-loop-failure-02.png"], videos: [], steps: ["发送股息率及 ETF 横向对比问题", "观察已完成思考区域中的工具调用状态", "等待系统结束处理"],
       expectedResult: "工具调用异常时应及时终止循环，明确提示失败原因，并提供重试、调整问题或人工服务入口。",
@@ -92,7 +92,7 @@ const aiWealthData = {
     }
   ],
   statistics: {
-    bySeverity: { "严重": 0, "重要": 5, "一般": 4, "轻微": 0 },
+    bySeverity: { "严重": 1, "重要": 4, "一般": 4, "轻微": 0 },
     byModule: { "UI交互优化": 3, "功能逻辑 Bug": 3, "模型对话Bug": 3 }
   },
   evaluation: {
@@ -115,7 +115,7 @@ const aiWealthData = {
   summary: {
     overviewText: "本次 AI 财富专享内测当前已记录 9 条问题，覆盖授权流程、工具调用稳定性、收益分析权限识别、基金添加自选、输入交互、基金信息卡片、自选股数据、回复文案拼接和 ETF 数据准确性。综合评测评分为 3/5。",
     highlight: "AI 财富功能场景覆盖较广，但应优先修复工具调用循环、权限状态不一致和操作意图路由问题",
-    points: ["已记录 9 条问题，其中 P1 重要问题 5 条", "问题归纳为 UI交互优化 3 条、功能逻辑 Bug 3 条、模型对话Bug 3 条", "所有证据图片均使用项目内归档资源，账户金额已脱敏"],
+    points: ["已记录 9 条问题，其中 P0 严重问题 1 条、P1 重要问题 4 条", "问题归纳为 UI交互优化 3 条、功能逻辑 Bug 3 条、模型对话Bug 3 条", "所有证据图片均使用项目内归档资源，账户金额已脱敏"],
     footer: "建议优先治理工具调用失败、权限校验和自选数据写入，再完善操作型意图识别及交互入口"
   }
 };
