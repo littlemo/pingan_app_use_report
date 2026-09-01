@@ -12,7 +12,7 @@ let currentTranslateY = 0;
 let isDragging = false;
 let startX = 0;
 let startY = 0;
-const ASSET_VERSION = "20260830-1";
+const ASSET_VERSION = "20260901-2";
 
 function withCacheBuster(assetPath) {
   if (!assetPath || assetPath.indexOf("?") !== -1) return assetPath;

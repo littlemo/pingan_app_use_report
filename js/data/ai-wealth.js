@@ -75,11 +75,25 @@ const aiWealthData = {
       time: "2026-08-30", screenshots: ["imgs/ai-wealth/ai-wealth-watchlist-extra-invalid-record.jpg", "imgs/ai-wealth/ai-wealth-invalid-fund-detail-empty.png"], videos: [], steps: ["在快捷服务对话返回的基金卡片上点击“加自选”", "进入自选列表观察新增记录", "点击新增记录进入基金详情页", "对比从自选页搜索基金后在详情页点击“加自选”的正常路径"],
       expectedResult: "点击加自选后应仅新增一条有效自选记录，基金代码、行情和详情数据应完整可用。",
       actualResult: "对话基金卡片路径下自选列表出现额外错误记录，错误记录详情页仅显示基金名称，其余内容为空；自选页搜索并从详情页加自选的正常路径未出现该问题。"
+    },
+    {
+      id: 8, priority: "P2", severity: "一般", module: "模型对话Bug", title: "回复开场白重复输出，内容拼接缺少整体润色",
+      description: "针对白酒市场行情及相关 ETF 的提问，回复内容中“您好，我是您的财富专家”被重复输出两次。两段内容在同一条回复中直接拼接，前后衔接割裂，疑似不同提示词输出结果合并后未进行统一的文案去重和整体润色。",
+      time: "2026-09-01", screenshots: ["imgs/ai-wealth/ai-wealth-duplicate-greeting.png"], videos: [], steps: ["在快捷服务中提问白酒市场行情及相关 ETF", "查看完整回复内容", "检查回复开场白及不同分析段落之间的衔接"],
+      expectedResult: "同一条回复中开场白只应出现一次；多个模块或提示词生成的内容合并后，应经过统一去重、排序和语义衔接处理。",
+      actualResult: "“您好，我是您的财富专家”在同一条回复中重复出现两次，段落之间存在明显拼接感。"
+    },
+    {
+      id: 9, priority: "P1", severity: "重要", module: "功能逻辑 Bug", title: "ETF 实时折溢价率取值错误导致分析结论失真",
+      description: "在请求寻找折价率较高的 ETF 场景中，回复表格内多只 ETF 的实时折溢价率均展示为 0.00%，但实际基金详情页显示折价率并非 0，例如恒生医疗 ETF 嘉实实时折价率为 -1.10%。下方关于折价幅度和产品排序的分析也基于错误的 0.00% 数据，导致筛选结果和解读结论失真。",
+      time: "2026-09-01", screenshots: ["imgs/ai-wealth/ai-wealth-etf-discount-rate-zero-01.png", "imgs/ai-wealth/ai-wealth-etf-discount-rate-zero-02.png", "imgs/ai-wealth/ai-wealth-etf-discount-rate-detail-reference.png"], videos: [], steps: ["在快捷服务中请求寻找折价比较高的 ETF 场内基金", "核对回复表格中的实时折溢价率", "进入对应 ETF 详情页核对实时溢价率", "对比回复表格和详情页数据及后续分析结论"],
+      expectedResult: "回复表格应准确展示各 ETF 的实时折溢价率，并基于最新、真实的数据进行筛选、排序和分析；无法获取实时数据时应明确提示。",
+      actualResult: "回复表格中多只 ETF 的实时折溢价率均显示为 0.00%，与详情页实际非零折价率不一致；下方分析因此建立在错误数据之上。"
     }
   ],
   statistics: {
-    bySeverity: { "严重": 0, "重要": 4, "一般": 3, "轻微": 0 },
-    byModule: { "UI交互优化": 3, "功能逻辑 Bug": 2, "模型对话Bug": 2 }
+    bySeverity: { "严重": 0, "重要": 5, "一般": 4, "轻微": 0 },
+    byModule: { "UI交互优化": 3, "功能逻辑 Bug": 3, "模型对话Bug": 3 }
   },
   evaluation: {
     scoreReason: {
@@ -99,9 +113,9 @@ const aiWealthData = {
     ]
   },
   summary: {
-    overviewText: "本次 AI 财富专享内测当前已记录 7 条问题，覆盖授权流程、工具调用稳定性、收益分析权限识别、基金添加自选、输入交互、基金信息卡片和自选股数据。综合评测评分为 3/5。",
+    overviewText: "本次 AI 财富专享内测当前已记录 9 条问题，覆盖授权流程、工具调用稳定性、收益分析权限识别、基金添加自选、输入交互、基金信息卡片、自选股数据、回复文案拼接和 ETF 数据准确性。综合评测评分为 3/5。",
     highlight: "AI 财富功能场景覆盖较广，但应优先修复工具调用循环、权限状态不一致和操作意图路由问题",
-    points: ["已记录 7 条问题，其中 P1 重要问题 4 条", "问题归纳为 UI交互优化 3 条、功能逻辑 Bug 2 条、模型对话Bug 2 条", "所有证据图片均使用项目内归档资源，账户金额已脱敏"],
+    points: ["已记录 9 条问题，其中 P1 重要问题 5 条", "问题归纳为 UI交互优化 3 条、功能逻辑 Bug 3 条、模型对话Bug 3 条", "所有证据图片均使用项目内归档资源，账户金额已脱敏"],
     footer: "建议优先治理工具调用失败、权限校验和自选数据写入，再完善操作型意图识别及交互入口"
   }
 };
